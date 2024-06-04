@@ -139,3 +139,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'core.CustomUser'
 
+
+REST_FRAMWORK = {
+    'COERCE_DESIMAL_TO_STRING': False,
+    
+}
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
