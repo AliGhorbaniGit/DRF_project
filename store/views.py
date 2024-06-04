@@ -1,12 +1,14 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.response import Response
 from rest_framework import status
 
 from rest_framework.viewsets import ModelViewSet
 
-
+from .permissions import IsAdminOrReadOnly
 from .models import Product, Category, Comment, Cart, CartItem, Customer, Order
 from .serializers import ProductSerializer , CategorySerializer, CommentSerializer, CartSerilizer, CartItemSerializer,CustomerSerializer, OrderSerializer
 
@@ -16,6 +18,10 @@ class ProductViewSet(ModelViewSet):
     serializer_class = ProductSerializer
 
 
+
+    permission_classes = [IsAdminOrReadOnly]
+
+
     def destroy(self, request, pk):
         product = get_object_or_404(Product, pk=pk)
         count = product.order_items.count()
@@ -23,8 +29,6 @@ class ProductViewSet(ModelViewSet):
             return Response({'error': f'there is {count} order item related to this product please delete theme first'})
         product.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
-
 
 
 class CategoryViewSet(ModelViewSet):
