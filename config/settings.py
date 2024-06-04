@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # django apps
+    'django_filters',
     'rest_framework',
 
     # my apps :
