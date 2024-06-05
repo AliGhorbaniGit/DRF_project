@@ -1,4 +1,6 @@
 from decimal import Decimal
+from django.utils.text import slugify
+
 from rest_framework import serializers
 
 from .models import Product, Category, Comment, Cart, CartItem, Customer, Order, Order
@@ -10,10 +12,22 @@ class ProductSerializer(serializers.ModelSerializer):
     unit_price_after_tax = serializers.SerializerMethodField()
     class Meta:
         model = Product
-        fields = ['id', 'name', 'price','unit_price_after_tax', 'category', 'inventory', 'description']
-    
+        fields = ['id', 'name','slug', 'price','unit_price_after_tax', 'category', 'inventory', 'description']
+        read_only_fields = ['slug',]
+
     def get_unit_price_after_tax(self, product):
         return round(product.unit_price * Decimal(1.09), 2)
+
+    def validate(self, data):
+        if len(data['title']) < 5:
+            raise serializers.ValidationError('mroduct title length should be more that 5 vharacters')
+        return data
+
+    def create(self, validated_data):
+        product = Product(**validated_data)
+        product.slug = slugify(product.title)
+        product.save()
+        return product
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
