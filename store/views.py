@@ -24,7 +24,7 @@ class ProductViewSet(ModelViewSet):
     search_fields = ['title',]
 
     permission_classes = [IsAdminOrReadOnly]
-    
+
     def destroy(self, request, pk):
         product = get_object_or_404(Product, pk=pk)
         count = product.order_items.count()
@@ -37,6 +37,16 @@ class ProductViewSet(ModelViewSet):
 class CategoryViewSet(ModelViewSet):
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
+
+    permission_classes = [IsAdminOrReadOnly, ]
+
+    def destroy(self, request, pk):
+        category = get_object_or_404(Category.objects.prefetch_related('products'), pk=pk)
+        if category.products.count() > 0:
+            return Response({'error': 'There is some products relating this category. Please remove them first.'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        category.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+        
 
 
 
