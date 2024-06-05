@@ -52,8 +52,14 @@ class CategoryViewSet(ModelViewSet):
 
 class CommentViewSet(ModelViewSet):
     serializer_class = CommentSerializer
-    queryset = Comment.objects.all()
-
+    
+    def get_queryset(self):
+        product_pk = self.kwargs.get('product_pk')
+        return Comment.objects.filter(product_id=product_pk, status='a').all()
+    
+    def get_serializer_context(self):
+        return {'product_pk': self.kwargs.get('product_pk'),'user_id':self.request.user.id}
+    
 
 
 class CartViewSet(ModelViewSet):

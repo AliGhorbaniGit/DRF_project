@@ -46,6 +46,14 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = ['user' ,'product', 'body', 'datetime_created',  'status'   ]
 
+        read_only_fields  = ['user', 'product', 'datetime_created', 'status']
+    
+
+    def create(self, validated_data):
+        product_id = self.context['product_pk']
+        user_id = self.context['user_id']
+        return Comment.objects.create(product_id=product_id,user_id=user_id, **validated_data)
+
 
 
 class CartSerilizer(serializers.ModelSerializer):
