@@ -8,6 +8,7 @@ from rest_framework import status
 
 from rest_framework.viewsets import ModelViewSet
 
+from .filters import ProductFilter
 from .permissions import IsAdminOrReadOnly
 from .models import Product, Category, Comment, Cart, CartItem, Customer, Order
 from .serializers import ProductSerializer , CategorySerializer, CommentSerializer, CartSerilizer, CartItemSerializer,CustomerSerializer, OrderSerializer
@@ -18,12 +19,12 @@ class ProductViewSet(ModelViewSet):
     serializer_class = ProductSerializer
 
     filter_backends = [DjangoFilterBackend,SearchFilter,OrderingFilter]
-    filterset_fields = ['category','title','slug',]
+    # filterset_fields = ['category','title','slug',]
+    filterset_class = ProductFilter
     search_fields = ['title',]
 
     permission_classes = [IsAdminOrReadOnly]
-
-
+    
     def destroy(self, request, pk):
         product = get_object_or_404(Product, pk=pk)
         count = product.order_items.count()

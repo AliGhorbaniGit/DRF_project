@@ -1,13 +1,19 @@
+from decimal import Decimal
 from rest_framework import serializers
 
 from .models import Product, Category, Comment, Cart, CartItem, Customer, Order, Order
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(max_length=250, source='title')
+    price = serializers.DecimalField(max_digits=6, decimal_places=2, source='unit_price')
+    unit_price_after_tax = serializers.SerializerMethodField()
     class Meta:
         model = Product
-        fields = ['title','unit_price','description','slug','category','discounts','inventory','datetime_created','datetime_modified',]
-
+        fields = ['id', 'name', 'price','unit_price_after_tax', 'category', 'inventory', 'description']
+    
+    def get_unit_price_after_tax(self, product):
+        return round(product.unit_price * Decimal(1.09), 2)
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
