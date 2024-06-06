@@ -5,6 +5,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 
 from rest_framework.viewsets import ModelViewSet
 
@@ -60,7 +61,17 @@ class CommentViewSet(ModelViewSet):
     def get_serializer_context(self):
         return {'product_pk': self.kwargs.get('product_pk'),'user_id':self.request.user.id}
     
+    def get_permissions(self):
+        if self.request.method in ['PATCH', 'DELETE']:
+            # product_pk = self.kwargs.get('product_pk')
+            # Comment = Comment.objects.get(pk=self.kwargs.get('pk'))
+            if not self.request.user == Comment.objects.get(pk=self.kwargs.get('pk')).user_id:
+                return [IsAdminUser()]
+            return True
+        if self.request.method in ['POST']:    
+            return [IsAuthenticated()]
 
+        return [IsAuthenticated()]
 
 class CartViewSet(ModelViewSet):
     queryset = Cart.objects.all()
