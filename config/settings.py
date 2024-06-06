@@ -38,9 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # django apps
+    # django's apps
     'django_filters',
     'rest_framework',
+    'djoser',
     'debug_toolbar',
 
     # my apps :
@@ -142,7 +143,14 @@ AUTH_USER_MODEL = 'core.CustomUser'
 
 REST_FRAMWORK = {
     'COERCE_DESIMAL_TO_STRING': False,
-    
+        'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
+
+SIMPLE_JWT = {
+    'AUTH_HEADER_TYPEW': ('JWT', ),
 }
 
 INTERNAL_IPS = [
