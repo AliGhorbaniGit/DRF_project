@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
+from django.db.models import Prefetch
 
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter, SearchFilter
@@ -14,7 +15,7 @@ from rest_framework.viewsets import ModelViewSet
 from .filters import ProductFilter
 from .permissions import IsAdminOrReadOnly
 from .models import Product, Category, Comment, Cart, CartItem, Customer, Order
-from .serializers import ProductSerializer , CategorySerializer, CommentSerializer, CartSerilizer, CartItemSerializer,CustomerSerializer, OrderSerializer
+from .serializers import ProductSerializer , CategorySerializer, CommentSerializer, CartSerilizer, CartItemSerializer,CustomerSerializer, OrderSerializer,AddCartItemSerializer,UpdateCartItemSerializer
 
 
 class ProductViewSet(ModelViewSet):
@@ -78,13 +79,31 @@ class CartViewSet(CreateModelMixin,
                    RetrieveModelMixin,
                    DestroyModelMixin,
                    GenericViewSet):
-    queryset = Cart.objects.all()
+    queryset = Cart.objects.prefetch_related(Prefetch(
+        'items',
+        queryset=CartItem.objects.select_related('product')
+    )).all()
     serializer_class = CartSerilizer
 
 
 class CartItemViewSet(ModelViewSet):
-    queryset = CartItem.objects.select_related('product').all()
-    serializer_class = CartItemSerializer
+    http_method_names = ['get','post','patch','delete']
+
+    def get_queryset(self):
+        cart_pk = self.kwargs['cart_pk']
+        return CartItem.objects.select_related('product').filter(cart_id=cart_pk).all()
+
+    def get_serializer_context(self):
+        return {'cart_pk': self.kwargs['cart_pk']}
+    
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return AddCartItemSerializer
+        elif self.request.method == 'PATCH':
+            return UpdateCartItemSerializer
+        return CartItemSerializer
+
 
 
 class CustomerViewset(ModelViewSet):
