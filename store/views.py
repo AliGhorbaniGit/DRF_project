@@ -6,6 +6,8 @@ from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
+from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, DestroyModelMixin
+from rest_framework.viewsets import GenericViewSet
 
 from rest_framework.viewsets import ModelViewSet
 
@@ -62,24 +64,26 @@ class CommentViewSet(ModelViewSet):
         return {'product_pk': self.kwargs.get('product_pk'),'user_id':self.request.user.id}
     
     def get_permissions(self):
-        if self.request.method in ['PATCH', 'DELETE']:
-            # product_pk = self.kwargs.get('product_pk')
-            # Comment = Comment.objects.get(pk=self.kwargs.get('pk'))
+        if self.request.method in ['PUT','PATCH', 'DELETE']:
             if not self.request.user == Comment.objects.get(pk=self.kwargs.get('pk')).user_id:
                 return [IsAdminUser()]
-            return True
+            # return [IsAuthenticated()]
+
         if self.request.method in ['POST']:    
             return [IsAuthenticated()]
 
         return [IsAuthenticated()]
 
-class CartViewSet(ModelViewSet):
+class CartViewSet(CreateModelMixin,
+                   RetrieveModelMixin,
+                   DestroyModelMixin,
+                   GenericViewSet):
     queryset = Cart.objects.all()
     serializer_class = CartSerilizer
 
 
 class CartItemViewSet(ModelViewSet):
-    queryset = CartItem.objects.all()
+    queryset = CartItem.objects.select_related('product').all()
     serializer_class = CartItemSerializer
 
 
