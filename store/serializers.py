@@ -114,7 +114,7 @@ class CartSerilizer(serializers.ModelSerializer):
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
-        fields = ['user', 'phone_number', 'birth_date'] 
+        fields = [ 'phone_number', 'birth_date'] 
 
 
 class OrderSerializer(serializers.ModelSerializer):
