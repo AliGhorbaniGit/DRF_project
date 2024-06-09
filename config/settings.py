@@ -143,15 +143,17 @@ AUTH_USER_MODEL = 'core.CustomUser'
 
 REST_FRAMWORK = {
     'COERCE_DESIMAL_TO_STRING': False,
-        'DEFAULT_AUTHENTICATION_CLASSES': (
+    'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    ),
 }
 
-
+from datetime import timedelta
 SIMPLE_JWT = {
-    'AUTH_HEADER_TYPEW': ('JWT', ),
+    'AUTH_HEADER_TYPES': ('JWT', ),
+    'ACCESS_TOKEN_LIFETIME':timedelta(days=1),
 }
+
 
 INTERNAL_IPS = [
     "127.0.0.1",
