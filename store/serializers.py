@@ -122,7 +122,7 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = ['customer', 'status', 'datetime_created'] 
-
+        read_only_fields = ['customer', 'status', 'datetime_created']
 
 class OrderCreateSerializer(serializers.Serializer):
     cart_id = serializers.UUIDField()
