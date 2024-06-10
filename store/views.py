@@ -130,6 +130,34 @@ class CustomerViewset(ModelViewSet):
 
 
 class OrderViewSet(ModelViewSet):
-    queryset = Order.objects.all()
-    serializer_class = OrderSerializer
+    http_method_names = ['get', 'post', 'patch', 'delete', 'options', 'head']
 
+    def get_permissions(self):
+        if self.request.method in ['PUT', 'PATCH']:
+            return [IsAdminUser()]
+        return [IsAuthenticated()]
+
+    def get_queryset(self):
+        queryset = Order.objects.all()
+
+        user = self.request.user
+
+        if user.is_staff:
+            return queryset
+        return queryset.filter(customer__user_id = user.id)
+    
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return OrderCreateSerializer
+
+        if self.request.method == 'PATCH':
+            return OrderUpdateSerializer
+        
+        if self.request.user.is_staff:
+            return OrderForAdminSerializer
+
+        return OrderSerializer
+
+
+
+    
