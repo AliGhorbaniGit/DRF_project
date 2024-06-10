@@ -137,7 +137,10 @@ class OrderCreateSerializer(serializers.Serializer):
 
         return cart_id
 
-# class OrderUpdateSerializer
+class OrderUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = ['status']
 
 
 

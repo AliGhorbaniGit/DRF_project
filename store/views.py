@@ -17,7 +17,7 @@ from rest_framework.viewsets import ModelViewSet
 from .filters import ProductFilter
 from .permissions import IsAdminOrReadOnly
 from .models import Product, Category, Comment, Cart, CartItem, Customer, Order, OrderItem
-from .serializers import ProductSerializer , CategorySerializer, CommentSerializer, CartSerilizer, CartItemSerializer,CustomerSerializer, OrderSerializer,AddCartItemSerializer,UpdateCartItemSerializer,OrderCreateSerializer
+from .serializers import ProductSerializer , CategorySerializer, CommentSerializer, CartSerilizer, CartItemSerializer,CustomerSerializer, OrderSerializer,AddCartItemSerializer,UpdateCartItemSerializer,OrderCreateSerializer, OrderUpdateSerializer, OrderForAdminSerializer
 
 
 class ProductViewSet(ModelViewSet):
