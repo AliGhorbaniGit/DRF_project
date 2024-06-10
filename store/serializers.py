@@ -123,3 +123,26 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = ['customer', 'status', 'datetime_created'] 
 
+
+class OrderCreateSerializer(serializers.Serializer):
+    cart_id = serializers.UUIDField()
+
+    def validate_cart_id(self, cart_id):
+        cart = Cart.objects.filter(id=cart_id)
+        if not cart.exists():
+            raise serializers.ValidationError('There is no cart with this cart id!')
+
+        if cart.count() == 0 :
+            raise serializers.ValidationError('Your cart is empty. Please add some products to it first!')
+
+        return cart_id
+
+# class OrderUpdateSerializer
+
+
+
+
+# OrderForAdminSerializer
+
+
+
