@@ -1,0 +1,162 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-06-12 17:56+0330\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+#: .\models.py:13
+msgid "Discount"
+msgstr "تخفیف"
+
+#: .\models.py:14
+msgid "Discounts"
+msgstr "تخفیفات"
+
+#: .\models.py:16
+msgid "discount"
+msgstr "تخفیف"
+
+#: .\models.py:17 .\models.py:49
+msgid "description"
+msgstr "توضیحات"
+
+#: .\models.py:28
+msgid "Category"
+msgstr "دسته بندی"
+
+#: .\models.py:29
+msgid "Categories"
+msgstr "دسته یندس ها"
+
+#: .\models.py:43 .\models.py:156
+msgid "product"
+msgstr "محصول"
+
+#: .\models.py:44
+msgid "products"
+msgstr "محصولات"
+
+#: .\models.py:47
+msgid "unit price"
+msgstr "قیمت واحد"
+
+#: .\models.py:52
+msgid "category"
+msgstr "دسته بندی"
+
+#: .\models.py:53
+msgid "discounts"
+msgstr "تخفیفات"
+
+#: .\models.py:55
+msgid "inventory"
+msgstr "موجودی"
+
+#: .\models.py:67
+msgid "comment"
+msgstr "نظر"
+
+#: .\models.py:68
+msgid "comments"
+msgstr "نظرات"
+
+#: .\models.py:94 .\models.py:137
+msgid "customer"
+msgstr "مشتری"
+
+#: .\models.py:95
+msgid "customers"
+msgstr "مشتریان"
+
+#: .\models.py:97
+msgid "user"
+msgstr "کاربر"
+
+#: .\models.py:99
+msgid "phone_number"
+msgstr "شماره تماس"
+
+#: .\models.py:100
+msgid "birth date"
+msgstr "تایرخ تولد"
+
+#: .\models.py:110
+msgid "Address"
+msgstr "آدرس"
+
+#: .\models.py:111
+msgid "Addresses"
+msgstr "آدرس ها"
+
+#: .\models.py:114
+msgid "province"
+msgstr "استان"
+
+#: .\models.py:115
+msgid "city"
+msgstr "شهر"
+
+#: .\models.py:116
+msgid "street"
+msgstr "خیابان"
+
+#: .\models.py:123 .\models.py:155
+msgid "order"
+msgstr "سفارش"
+
+#: .\models.py:124
+msgid "orders"
+msgstr "سفارشات"
+
+#: .\models.py:138
+msgid "status"
+msgstr "وضعیت"
+
+#: .\models.py:139
+msgid "created time"
+msgstr "تاریخ ایجاد"
+
+#: .\models.py:152
+msgid "Order Item"
+msgstr "آیتم سفارش"
+
+#: .\models.py:153
+msgid "Order Items"
+msgstr "آیتم های سفارش"
+
+#: .\models.py:169
+msgid "cart"
+msgstr "سبد خرید "
+
+#: .\models.py:170
+msgid "carts"
+msgstr "سبدهای خرید"
+
+#: .\models.py:173
+msgid "created at"
+msgstr "ایجاد شده در"
+
+#: .\models.py:180
+msgid "cart items"
+msgstr "آیتم سبد خرید"
+
+#: .\models.py:181
+msgid "carts items"
+msgstr "آیتم های سبد خرید"
+
+#: .\models.py:185
+msgid "quantity"
+msgstr "تعداد"

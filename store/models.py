@@ -3,7 +3,7 @@ from django.core.validators import MinValueValidator
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 from uuid import uuid4
-
+from django.utils.text import slugify
 
 
 class Discount(models.Model):
@@ -47,7 +47,7 @@ class Product(models.Model):
     unit_price = models.DecimalField(max_digits=6, decimal_places=2, verbose_name=_('unit price'))
     # image = models.ImageField(upload_to='image/products_image', verbose_name=_('image'))
     description = models.TextField(max_length=1000, verbose_name=_('description'), blank=True)
-    slug = models.SlugField()
+    slug = models.SlugField(verbose_name=_('slug'))
 
     category = models.ForeignKey(Category,on_delete=models.PROTECT, related_name='products', verbose_name=_('category'))
     discounts = models.ManyToManyField(Discount, blank=True, verbose_name=_('discounts'))
@@ -149,8 +149,8 @@ class OrderItem(models.Model):
     """ this is the order Items model """
 
     class Meta:
-        verbose_name = _('Order Items')
-        verbose_name_plural = _('Orders Items')
+        verbose_name = _('Order Item')
+        verbose_name_plural = _('Order Items')
 
     order = models.ForeignKey(Order, on_delete=models.PROTECT, related_name='items', verbose_name=_('order'))
     product = models.ForeignKey(Product, on_delete=models.PROTECT, related_name='order_items', verbose_name=_('product'))
