@@ -1,4 +1,8 @@
 from django.contrib import admin, messages
+from django.urls import reverse
+from django.utils.html import format_html
+from django.utils.http import urlencode
+from django.db.models import Count
 
 from . import models
 
@@ -29,10 +33,11 @@ class InventoryFilter(admin.SimpleListFilter):
 
 @admin.register(models.Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('title','unit_price','description','slug','category',
-                    'inventory','inventory_status','datetime_created','datetime_modified')
+    list_display = ('title','unit_price','description','slug','product_category',
+                    'inventory','inventory_status','num_of_comments','datetime_created',
+                    'datetime_modified', )
     list_display_order = 10
-    list_editable = ['unit_price', 'inventory', 'category']
+    list_editable = ['unit_price', 'inventory', ]
     list_select_related = ['category']
     list_filter = ['datetime_created', InventoryFilter]
     actions = ['clear_inventory']
@@ -40,6 +45,12 @@ class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {
         'slug': ['title', ]
     }
+
+    def get_queryset(self, request):
+        return super().get_queryset(request)\
+            .prefetch_related('comments').annotate(
+                comments_count=Count('comments'),
+            )
 
     @admin.action(description='Clear inventory')
     def clear_inventory(self, request, queryset):
@@ -58,17 +69,21 @@ class ProductAdmin(admin.ModelAdmin):
             return 'High'
         return 'Medium'
 
+    @admin.display(ordering='category__title')
+    def product_category(self, product):
+        return product.category.title
 
-
-
-
-
-
-
-
-
-
-
+    @admin.display(description='# comments', ordering='comments_count')
+    def num_of_comments(self, product):
+        url = (
+            reverse('admin:store_comment_changelist') 
+            + '?'
+            + urlencode({
+                'product__id': product.id,
+            })
+        )
+        return format_html('<a href="{}">{}</a>', url, product.comments_count)
+        
 
 @admin.register(models.Discount)
 class DiscounttAdmin(admin.ModelAdmin):
@@ -83,11 +98,30 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(models.Comment)
 class CommentAdmin(admin.ModelAdmin):
     list_display = ['user','product','body','datetime_created','status']
+    list_editable = ['status',]
+    list_per_page = 10
+    autocomplete_fields = ['product', ]
+    authenticate_fiels = ['body']
+    actions = ['make_status_to_approve',]
+    list_select_related = ['product']
+    search_fields = ['product__title']
+
+
+    
+
+
+    @admin.action(description='make status to approve')
+    def make_status_to_approve(self, request, queryset):
+        update_status = queryset.update(status='a')
+        self.message_user(request, f'{update_status} comment Approved')
+
+
 
 
 @admin.register(models.Customer)
 class CustomerAdmin(admin.ModelAdmin):
     list_display = ['user','phone_number','birth_date']
+
 
 
 @admin.register(models.Address)
