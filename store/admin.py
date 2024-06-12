@@ -45,6 +45,8 @@ class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {
         'slug': ['title', ]
     }
+    autocomplete_fields = ['category', 'discounts']
+    authenticate_fiels = ['title']
 
     def get_queryset(self, request):
         return super().get_queryset(request)\
@@ -87,12 +89,15 @@ class ProductAdmin(admin.ModelAdmin):
 
 @admin.register(models.Discount)
 class DiscounttAdmin(admin.ModelAdmin):
-    list_display = ['discount','description']
+    list_display = ['title','discount','description']
+    search_fields = ['title',]
 
 
 @admin.register(models.Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ['title','description','top_product']
+    search_fields = ['title']
+
 
 
 @admin.register(models.Comment)

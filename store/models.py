@@ -18,7 +18,7 @@ class Discount(models.Model):
     description = models.CharField(max_length=255, verbose_name=_('description'))
 
     def __str__(self):
-        return f'{str(self.discount)} | {self.description}'
+        return f'{str(self.title)} | {self.discount}'
 
 
 
