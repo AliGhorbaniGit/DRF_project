@@ -13,6 +13,7 @@ class Discount(models.Model):
         verbose_name = _('Discount')
         verbose_name_plural = _('Discounts')
 
+    title = models.CharField(max_length=255, verbose_name=_('title'))
     discount = models.FloatField(verbose_name=_('discount'))
     description = models.CharField(max_length=255, verbose_name=_('description'))
 
