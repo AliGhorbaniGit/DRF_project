@@ -124,7 +124,15 @@ class CustomerSerializer(serializers.ModelSerializer):
         read_only_fields = ['user',]
 
 
+class OrderItemProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ['id', 'name', 'unit_price']
+
+
 class OrderSerializer(serializers.ModelSerializer):
+    product = OrderItemProductSerializer()
+
     class Meta:
         model = Order
         fields = ['customer', 'status', 'datetime_created'] 
