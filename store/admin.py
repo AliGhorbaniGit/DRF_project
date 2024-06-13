@@ -126,6 +126,7 @@ class CommentAdmin(admin.ModelAdmin):
 @admin.register(models.Customer)
 class CustomerAdmin(admin.ModelAdmin):
     list_display = ['user','phone_number','birth_date']
+    search_fields = ['user__username', 'user__first_name', 'user__last_name']
 
 
 
@@ -138,17 +139,40 @@ class OrderItemsInline(admin.TabularInline):
     model = models.OrderItem
     fields = ['product', 'quantity', 'unit_price']
     extra = 1
+    min_num = 1
+    autocomplete_fields = ['product']
+    
 
 
 @admin.register(models.Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['customer','status','datetime_created']
+    list_display = ['id','customer','status','num_of_items', 'datetime_created', ]
+    list_editable = ['status',]
+    list_per_page = 10
+    ordering = ['-datetime_created']
     inlines = [OrderItemsInline,]
+    list_select_related = ['customer',]
+    search_fields = ['id','customer__user__username','customer__user__first_name',
+    'customer__user__last_name','customer__user__email','customer__phone_number']
+    autocomplete_fields = ['customer', ]
+    list_filter = ['datetime_created', 'status', 'customer']
+
+    def get_queryset(self, request):
+        return super()\
+            .get_queryset(request)\
+            .prefetch_related('items')\
+            .annotate(
+                items_count=Count('items')
+            )
+
+    def num_of_items(self, order):
+        return order.items_count
 
 
 @admin.register(models.OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
     list_display = ['order','product','quantity','unit_price']
+    # search_fields = ['product__title']
 
 
 
