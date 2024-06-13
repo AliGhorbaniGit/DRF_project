@@ -127,7 +127,7 @@ class CustomerSerializer(serializers.ModelSerializer):
 class OrderItemProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ['id', 'name', 'unit_price']
+        fields = ['id', 'title', 'unit_price']
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
@@ -143,7 +143,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ['customer', 'status', 'datetime_created'] 
+        fields = ['customer','items', 'status', 'datetime_created'] 
         read_only_fields = ['customer', 'status', 'datetime_created']
 
 

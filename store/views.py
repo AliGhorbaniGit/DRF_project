@@ -156,7 +156,12 @@ class OrderViewSet(ModelViewSet):
         return [IsAuthenticated()]
 
     def get_queryset(self):
-        queryset = Order.objects.all()
+        queryset = Order.objects.prefetch_related(
+            Prefetch(
+                'items',
+                queryset=OrderItem.objects.select_related('product'),
+            )
+        ).select_related('customer__user').all()
 
         user = self.request.user
 
