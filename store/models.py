@@ -95,6 +95,10 @@ class Customer(models.Model):
         verbose_name = _('customer')
         verbose_name_plural = _('customers')
 
+        permissions = [
+           ('send_private_email', 'Can send private email to user by the button')
+        ]
+
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, verbose_name=_('user'))
     # image = models.ImageField(upload_to='image/products_image', verbose_name=_('image'))
     phone_number = models.IntegerField(null=True,blank=True, verbose_name=_("phone_number"), )

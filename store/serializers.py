@@ -3,7 +3,7 @@ from django.utils.text import slugify
 
 from rest_framework import serializers
 
-from .models import Product, Category, Comment, Cart, CartItem, Customer, Order, Order
+from .models import Product, Category, Comment, Cart, CartItem, Customer, Order, OrderItem
 
 
 class ProductSerializer(serializers.ModelSerializer):

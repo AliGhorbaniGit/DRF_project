@@ -10,7 +10,7 @@ class IsAdminOrReadOnly(permissions.BasePermission):
         return bool(request.user and request.user.is_staff)
 
 
-class SendPrivateEmailTOCustomerPermission(permissions.BasePermission):
+class SendPrivateEmailToCustomerPermission(permissions.BasePermission):
     def has_permission(self, request, view):
         return bool(request.user and request.user.has_perm('store.send_private_email'))
 
