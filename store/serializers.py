@@ -45,7 +45,6 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ['user' ,'product', 'body', 'datetime_created',  'status'   ]
-
         read_only_fields  = ['user', 'product', 'datetime_created', 'status']
     
 
@@ -55,7 +54,14 @@ class CommentSerializer(serializers.ModelSerializer):
         return Comment.objects.create(product_id=product_id,user_id=user_id, **validated_data)
 
 
+class CartProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ['id', 'name', 'unit_price']
+
+
 class CartItemSerializer(serializers.ModelSerializer):
+    product = CartProductSerializer()
     item_total = serializers.SerializerMethodField()
     class Meta:
         model = CartItem
@@ -123,6 +129,7 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = ['customer', 'status', 'datetime_created'] 
         read_only_fields = ['customer', 'status', 'datetime_created']
+
 
 class OrderCreateSerializer(serializers.Serializer):
     cart_id = serializers.UUIDField()
