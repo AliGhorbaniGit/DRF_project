@@ -18,6 +18,8 @@ from .filters import ProductFilter
 from .permissions import IsAdminOrReadOnly
 from .models import Product, Category, Comment, Cart, CartItem, Customer, Order, OrderItem
 from .serializers import ProductSerializer , CategorySerializer, CommentSerializer, CartSerilizer, CartItemSerializer,CustomerSerializer, OrderSerializer,AddCartItemSerializer,UpdateCartItemSerializer,OrderCreateSerializer, OrderUpdateSerializer, OrderForAdminSerializer
+from .paginations import DefaultPagination
+
 
 
 class ProductViewSet(ModelViewSet):
@@ -29,6 +31,7 @@ class ProductViewSet(ModelViewSet):
     filterset_class = ProductFilter
     search_fields = ['title',]
 
+    pagination_class = DefaultPagination
     permission_classes = [IsAdminOrReadOnly]
 
     def destroy(self, request, pk):
