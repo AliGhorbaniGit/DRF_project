@@ -125,9 +125,21 @@ class CommentAdmin(admin.ModelAdmin):
 
 @admin.register(models.Customer)
 class CustomerAdmin(admin.ModelAdmin):
-    list_display = ['user','phone_number','birth_date']
+    list_display = ['user','first_name', 'last_name','phone_number','birth_date']
     search_fields = ['user__username', 'user__first_name', 'user__last_name']
+    list_per_page = 10
+    ordering = ['user__last_name', 'user__first_name', ]
+    list_select_related = ['user']
+    autocomplete_fields = ['user',]
 
+    def first_name(self, customer):
+        return customer.user.first_name
+    
+    def last_name(self, customer):
+        return customer.user.last_name
+
+    def email(self, customer):
+        return customer.user.email
 
 
 @admin.register(models.Address)
@@ -172,14 +184,23 @@ class OrderAdmin(admin.ModelAdmin):
 @admin.register(models.OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
     list_display = ['order','product','quantity','unit_price']
-    # search_fields = ['product__title']
+    search_fields = ['order']
+    list_filter = ['order','product',]
 
 
+class CartItemInline(admin.TabularInline):
+    model = models.CartItem
+    fields = ['id', 'product', 'quantity']
+    extra = 0
+    min_num = 1
+    autocomplete_fields = ['product',]
 
 @admin.register(models.Cart)
 class CartAdmin(admin.ModelAdmin):
     list_display = ['id','created_at']
-
+    inlines = [CartItemInline]
+    search_fields = ['id','created_at']
+    list_filter = ['created_at',]
 
 
 @admin.register(models.CartItem)
