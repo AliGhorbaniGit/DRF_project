@@ -11,6 +11,7 @@ django-filter = "*"
 django-debug-toolbar = "*"
 djoser = "*"
 djangorestframework-simplejwt = "*"
+mysqlclient = "*"
 
 [dev-packages]
 
