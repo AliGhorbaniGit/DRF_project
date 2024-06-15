@@ -213,6 +213,6 @@ class OrderViewSet(ModelViewSet):
     def perform_create(self, serializer):
         instance = serializer.save()
         if instance:
-            # Disable POST method by removing 'create' action from allowed actions
+            # Disabling POST method by removing 'create' action from allowed actions
             self.allowed_methods['POST'].remove('create')
 

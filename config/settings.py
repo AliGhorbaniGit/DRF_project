@@ -157,6 +157,14 @@ SIMPLE_JWT = {
 AUTH_USER_MODEL = 'core.CustomUser'
 
 
+DJOSER = {
+    'SERIALIZERS': {
+        'user_create': 'core.serializers.UserCreateSerializer',
+        'current_user': 'core.serializers.UserSerializer',
+    }
+}
+
+
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
