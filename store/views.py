@@ -19,6 +19,7 @@ from .permissions import IsAdminOrReadOnly, SendPrivateEmailToCustomerPermission
 from .models import Product, Category, Comment, Cart, CartItem, Customer, Order, OrderItem
 from .serializers import ProductSerializer , CategorySerializer, CommentSerializer, CartSerilizer, CartItemSerializer,CustomerSerializer, OrderSerializer,AddCartItemSerializer,UpdateCartItemSerializer,OrderCreateSerializer, OrderUpdateSerializer, OrderForAdminSerializer
 from .paginations import DefaultPagination
+from .signals import order_created
 
 
 
@@ -205,7 +206,9 @@ class OrderViewSet(ModelViewSet):
             ]
 
             OrderItem.objects.bulk_create(order_items)
-            # Cart.objects.get(id=cart_id).delete()
+            Cart.objects.get(id=cart_id).delete()
+
+            order_created.send_robust(self.__class__, order=order)
 
             serializer = OrderSerializer(order)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
