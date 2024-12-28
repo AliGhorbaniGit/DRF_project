@@ -23,12 +23,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 
 SECRET_KEY = 'local_scret_key.SECRET_KEY'
-# try:
-#     from local_secret_key import SECRET_KEY
-# except ImportError:
-#     print('********************')
-#     print('add secert key')
-#     print('********************')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -110,24 +104,6 @@ DATABASES = {
     }
 }
 
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'store',
-#         'HOST': 'localhost',
-#         'USER': 'root',
-#         'PASSWORD': 'mypassword',
-#         # 'HOST': 'db',  # This should match the service name in docker-compose.yml
-#         'PORT': '3306',
-#     }
-# }
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 
 
 # Password validation
