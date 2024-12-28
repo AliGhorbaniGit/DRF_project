@@ -160,6 +160,33 @@ class OrderCreateSerializer(serializers.Serializer):
 
         return cart_id
 
+    def save(self, **kwargs):
+        with transaction.atomic():
+            cart_id = self.validated_data['cart_id']
+            user_id = self.context['user_id']
+            customer = Customer.objects.get(user_id=user_id)
+
+            order = Order()
+            order.customer = customer
+            order.save()
+
+            cart_items = CartItem.objects.select_related('product').filter(cart_id=cart_id)
+
+            order_items = [
+                OrderItem(
+                    order=order,
+                    product=cart_item.product,
+                    unit_price=cart_item.product.unit_price,
+                    quantity=cart_item.quantity,
+                ) for cart_item in cart_items
+            ]
+
+            OrderItem.objects.bulk_create(order_items)
+
+            Cart.objects.get(id=cart_id).delete()
+
+            return order
+
 class OrderUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
