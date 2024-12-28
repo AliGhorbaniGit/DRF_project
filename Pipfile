@@ -12,6 +12,8 @@ django-debug-toolbar = "*"
 djoser = "*"
 djangorestframework-simplejwt = "*"
 mysqlclient = "*"
+factory-boy = "*"
+faker = "*"
 
 [dev-packages]
 
