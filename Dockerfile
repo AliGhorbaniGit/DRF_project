@@ -7,7 +7,6 @@ WORKDIR /code
 
 COPY Pipfile Pipfile.lock /code/
 RUN pip install pipenv
-RUN pipenv install --deploy --ignore-pipfile --system
 
 COPY . /code/
 

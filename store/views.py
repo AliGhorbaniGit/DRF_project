@@ -183,39 +183,21 @@ class OrderViewSet(ModelViewSet):
         return OrderSerializer
 
     def create(self, request, *args, **kwargs):
-        with transaction.atomic():
-            order_create_serializer = OrderCreateSerializer(data=request.data)
+         create_order_serializer = OrderCreateSerializer(
+            data=request.data,
+            context={'user_id': self.request.user.id},
+        )
+        
+        create_order_serializer.is_valid(raise_exception=True)
+        created_order = create_order_serializer.save()
 
-            order_create_serializer.is_valid(raise_exception=True)
+        order_created.send_robust(self.__class__, order=created_order)
 
-            cart_id = order_create_serializer.validated_data['cart_id']
-            user_id = self.request.user.id
-            customer = Customer.objects.get(user_id = user_id)
-
-            order = Order.objects.create(customer=customer,)
-
-            cart_items = CartItem.objects.filter(cart_id=cart_id)
-
-            order_items = [
-                OrderItem(
-                    order=order,
-                    product=cart_item.product,
-                    unit_price=cart_item.product.unit_price,
-                    quantity=cart_item.quantity,
-                ) for cart_item in cart_items
-            ]
-
-            OrderItem.objects.bulk_create(order_items)
-            Cart.objects.get(id=cart_id).delete()
-
-            order_created.send_robust(self.__class__, order=order)
-
-            serializer = OrderSerializer(order)
+        serializer = OrderSerializer(created_order)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-    
+        
     def perform_create(self, serializer):
         instance = serializer.save()
         if instance:
             # Disabling POST method by removing 'create' action from allowed actions
             self.allowed_methods['POST'].remove('create')
-
