@@ -1,25 +1,25 @@
-version: '3.9'
 
 services:
   web:
     build: .
-    command: pipenv run python manage.py runserver 0.0.0.0:8000
+    container_name: store-api
+    command: python /code/manage.py runserver 0.0.0.0:8000
+    restart: always
     volumes:
       - .:/code
     ports:
-      - "8000:8000"
-    depends_on:
-      - db
+      - 8000:8000
+    
 
   db:
-    image: mysql
-    volumes:
-      - db_data:/var/lib/mysql
+    image: postgres:17
+    container_name: postgres_db
+    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: mypassword
-      MYSQL_DATABASE: store
-      MYSQL_USER: root
-      MYSQL_PASSWORD: mypassword
+      - "POSTGRES_HOST_AUTH_METHOD=trust" # just for development
+      - "POSTGRES_USER=postgres"
+      - "POSTGRES_PASSWORD=postgres"
 
-volumes:
-  db_data:
+
+volumes:  
+  db_data: {}

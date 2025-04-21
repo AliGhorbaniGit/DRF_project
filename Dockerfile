@@ -1,20 +1,11 @@
-FROM python:3.9
+FROM python:3.13
 
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE 1  # Prevents Python from writing .pyc files  
+ENV PYTHONUNBUFFERED 1         # Ensures output is sent straight to terminal
 
 WORKDIR /code
 
-COPY Pipfile Pipfile.lock /code/
-RUN pip install pipenv
+COPY requirements.txt /code/
+RUN pip install -r requirements.txt
 
 COPY . /code/
-
-# Update hosts file
-RUN echo "127.0.0.1 db" >> /etc/hosts
-
-# Expose the port
-EXPOSE 8000
-
-# Define the command to run the application
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

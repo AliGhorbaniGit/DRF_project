@@ -188,13 +188,14 @@ class OrderViewSet(ModelViewSet):
             context={'user_id': self.request.user.id},
         )
         
-        create_order_serializer.is_valid(raise_exception=True)
-        created_order = create_order_serializer.save()
+         create_order_serializer.is_valid(raise_exception=True)
+         created_order = create_order_serializer.save()
 
-        order_created.send_robust(self.__class__, order=created_order)
+         order_created.send_robust(self.__class__, order=created_order)
 
-        serializer = OrderSerializer(created_order)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+         serializer = OrderSerializer(created_order)
+         return Response(serializer.data, status=status.HTTP_201_CREATED)
+         
         
     def perform_create(self, serializer):
         instance = serializer.save()
