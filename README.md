@@ -34,7 +34,7 @@ This project has been optimized for performance with the following strategies:
 
 1. **Database Query Optimization**:  
    - All critical queries are indexed to enhance retrieval times.  
-   - Used `prefetch_related` and `select_related` to minimize database hits during operations involving related entities.  
+   - Used some orm optimization by `prefetch_class`, `prefetch_related`, `select_related` and other to minimize database hits during operations involving related entities.  
 
 
 2. **Benchmark Results**:  
