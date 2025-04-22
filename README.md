@@ -27,6 +27,7 @@ This is an Online Shop API built with Django REST Framework. The API provides fu
 This project is fully dockerized for easy development and deployment. 
 
 
+
 ## Performance Optimizations  
 
 This project has been optimized for performance with the following strategies:  
