@@ -22,6 +22,11 @@ This is an Online Shop API built with Django REST Framework. The API provides fu
 - **Faker**  
 
 
+## Getting Started with Docker  
+
+This project is fully dockerized for easy development and deployment. 
+
+
 ## Performance Optimizations  
 
 This project has been optimized for performance with the following strategies:  
@@ -33,3 +38,7 @@ This project has been optimized for performance with the following strategies:
 
 2. **Benchmark Results**:  
    - Initial loading times have decreased by over 60% compared to earlier versions
+  
+
+
+
