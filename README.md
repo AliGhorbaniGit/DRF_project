@@ -22,9 +22,9 @@ This is an Online Shop API built with Django REST Framework. The API provides fu
 - **Faker**  
 
 
-## Getting Started with Docker  
+## Docker  
 
-This project is fully dockerized for easy development and deployment. 
+This project is dockerized for easy development and deployment. 
 
 
 
