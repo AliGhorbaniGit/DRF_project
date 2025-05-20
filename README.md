@@ -38,7 +38,7 @@ This project has been optimized for performance with the following strategies:
 
 
 2. **Benchmark Results**:  
-   - Initial loading times have decreased by over 60% compared to earlier versions
+   - Initial loading times have decreased by over 30% compared to earlier versions
   
 
 
